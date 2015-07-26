@@ -16,7 +16,7 @@ namespace ImageMagickConverterLauncher
   /// </summary>
   public partial class MainWindow : Window
   {
-    string imageMagickPathKey = Registry.CurrentUser.ToString() + @"\ImageMagickConverterLauncher";
+    string imageMagickPathKey = Registry.CurrentUser.ToString() + @"\Software\ImageMagickConverterLauncher";
     string imageMagickPathValue = "ConvertPath";
     string strImageMagickPath = @"C:\Program Files\ImageMagick-6.9.1-Q16";
     const string strImageMagickConvertFileName = "convert.exe";
@@ -179,7 +179,8 @@ namespace ImageMagickConverterLauncher
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      strImageMagickPath = Registry.GetValue(imageMagickPathKey, imageMagickPathValue, string.Empty) as string;
+      var value = Registry.GetValue(imageMagickPathKey, imageMagickPathValue, string.Empty);
+      strImageMagickPath = value == null ? string.Empty : value as string;
       if (strImageMagickPath == string.Empty || !File.Exists(Path.Combine(strImageMagickPath, strImageMagickConvertFileName)))
       {
         OpenFileDialog ofd = new OpenFileDialog();
